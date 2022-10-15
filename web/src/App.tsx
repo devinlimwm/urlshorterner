@@ -1,31 +1,58 @@
 import React, { useState } from "react";
-import { ajax } from "rxjs/ajax";
-import { catchError, take } from "rxjs/operators";
 import "./App.css";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 function App() {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // 👇️ prevent page refresh
     event.preventDefault();
 
-    const obs = ajax
-      .post<string>("localhost:8000/url/short", longUrl)
-      .pipe(
-        catchError((error) => error),
-        take(1)
-      )
-      .subscribe((response: string | unknown) =>
-        setShortUrl(response as string)
-      );
+    const params = new URLSearchParams();
+    params.append("long_url", longUrl);
 
-    return () => obs.unsubscribe();
+    const csrftoken = Cookies.get("csrftoken");
+
+    try {
+      const res = await axios({
+        method: "post",
+        url: "http://localhost:8000/create/",
+        data: params,
+        headers: { "X-CSRFToken": csrftoken },
+      });
+
+      setShortUrl(res.data.short_url);
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message ?? "Error occurred");
+    }
   };
+
+  const linkComponent = shortUrl ? (
+    <label>
+      Shortened URL:
+      <a
+        href={`http://localhost:8000/goto/${shortUrl}`}
+      >{`http://localhost:8000/goto/${shortUrl}`}</a>
+    </label>
+  ) : (
+    <></>
+  );
 
   return (
     <div className="App">
+      <div>
+        <Toaster />
+      </div>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossOrigin="anonymous"
+      />
       <header className="App-header">
         <form onSubmit={handleSubmit}>
           <label>
@@ -38,10 +65,7 @@ function App() {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <label>
-          Shortened URL:
-          <input type="text" value={shortUrl} />
-        </label>
+        {linkComponent}
       </header>
     </div>
   );
