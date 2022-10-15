@@ -136,5 +136,5 @@ CSRF_COOKIE_SECURE = False
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3001",
+    "http://localhost",
 ]
