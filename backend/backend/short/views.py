@@ -1,4 +1,4 @@
-from backend.short.models import Url
+from .models import Url
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, redirect
@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import redirect
 import re
-from urllib.parse import urlparse
+from .services import UrlService
 
 
 @csrf_exempt
@@ -22,10 +22,7 @@ class ShortenUrl(APIView):
         body = request.POST.dict()
         long_url = body.get("long_url")
 
-        def is_absolute(url):
-            return bool(urlparse(url).netloc)
-
-        if not is_absolute(long_url):
+        if not UrlService.is_absolute(long_url):
             return JsonResponse({"message": "URL is not fully formed."}, status=400)
 
         if not long_url:
