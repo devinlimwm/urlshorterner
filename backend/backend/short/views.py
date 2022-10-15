@@ -35,7 +35,6 @@ class ShortenUrl(APIView):
         url.save()
         return JsonResponse({"short_url": url.short_url}, status=200)
 
-    @csrf_exempt
     def get(self, request, short_url):
         queryset = Url.objects.all()
         url = get_object_or_404(queryset, pk=short_url)
