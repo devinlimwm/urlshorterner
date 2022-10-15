@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
 
 function App() {
   const [longUrl, setLongUrl] = useState("");
@@ -15,14 +14,11 @@ function App() {
     const params = new URLSearchParams();
     params.append("long_url", longUrl);
 
-    const csrftoken = Cookies.get("csrftoken");
-
     try {
       const res = await axios({
         method: "post",
         url: "http://localhost:8000/create/",
         data: params,
-        headers: { "X-CSRFToken": csrftoken },
       });
 
       setShortUrl(res.data.short_url);
