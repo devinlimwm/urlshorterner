@@ -10,7 +10,7 @@ class Url(models.Model):
     visits = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.long_url + self.short_url + self.created_at
+        return f'long: {self.long_url} short: {self.short_url} visits: {self.visits}'
 
     class Meta:
         ordering = ['-visits']
