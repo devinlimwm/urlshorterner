@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
             name='Url',
             fields=[
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('short_url', models.CharField(default=backend.short.services.UuidService.shortUuid, max_length=10, primary_key=True, serialize=False, unique=True)),
+                ('short_url', models.CharField(default=backend.short.services.UuidService.short_uuid,
+                 max_length=10, primary_key=True, serialize=False, unique=True)),
                 ('long_url', models.CharField(max_length=256)),
                 ('visits', models.IntegerField(default=0)),
             ],
