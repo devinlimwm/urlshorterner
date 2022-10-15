@@ -22,11 +22,11 @@ class ShortenUrl(APIView):
         body = request.POST.dict()
         long_url = body.get("long_url")
 
-        if not UrlService.is_absolute(long_url):
-            return JsonResponse({"message": "URL is not fully formed."}, status=400)
-
         if not long_url:
             return JsonResponse({"message": "URL Not found"}, status=400)
+
+        if not UrlService.is_absolute(long_url):
+            return JsonResponse({"message": "URL is not fully formed."}, status=400)
 
         url = Url(long_url=body.get("long_url"))
         url.save()
