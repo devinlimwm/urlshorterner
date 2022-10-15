@@ -3,6 +3,9 @@ import "./App.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
+// using const as installing webpack to configure .env is pretty time consuming
+const API_URL = "http://localhost:8000";
+
 function App() {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
@@ -17,7 +20,7 @@ function App() {
     try {
       const res = await axios({
         method: "post",
-        url: "http://localhost:8000/create/",
+        url: `${API_URL}/create/`,
         data: params,
       });
 
@@ -31,8 +34,8 @@ function App() {
     <label>
       Shortened URL:
       <a
-        href={`http://localhost:8000/goto/${shortUrl}`}
-      >{`http://localhost:8000/goto/${shortUrl}`}</a>
+        href={`${API_URL}/goto/${shortUrl}`}
+      >{`${API_URL}/goto/${shortUrl}`}</a>
     </label>
   ) : (
     <></>
