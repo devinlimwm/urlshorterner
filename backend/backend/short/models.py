@@ -1,5 +1,5 @@
 from django.db import models
-from backend.short.services import UuidService
+from .services import UuidService
 
 
 class Url(models.Model):
