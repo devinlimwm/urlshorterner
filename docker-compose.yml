@@ -10,6 +10,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_PORT=5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   backend:
     build: ./backend
     command: python manage.py runserver 0.0.0.0:8000
@@ -23,12 +28,8 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_PORT=5432
     depends_on:
-      - db
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      db:
+        condition: service_healthy
   web:
     build: ./web
     command: npm run start
