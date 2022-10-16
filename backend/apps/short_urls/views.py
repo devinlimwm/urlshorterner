@@ -32,7 +32,7 @@ class ShortUrlView(APIView):
             url = Url(long_url=body.get("long_url"))
             url.save()
             return JsonResponse({"short_url": url.short_url}, status=200)
-        except Exception as e:
+        except:
             return JsonResponse({"message": "Internal error occurred"}, status=500)
 
     def get(self, request, short_url):
