@@ -20,7 +20,7 @@ function App() {
     try {
       const res = await axios({
         method: "post",
-        url: `${API_URL}/create/`,
+        url: `${API_URL}/short/url/`,
         data: params,
       });
 
