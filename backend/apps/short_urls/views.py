@@ -12,7 +12,7 @@ from .services import UrlService
 
 
 @csrf_exempt
-class ShortenUrl(APIView):
+class ShortUrlView(APIView):
     """
     API endpoint that allows users to be viewed or edited.
     """
