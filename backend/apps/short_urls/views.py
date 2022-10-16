@@ -36,11 +36,13 @@ class ShortUrlView(APIView):
             return JsonResponse({"message": "Internal error occurred"}, status=500)
 
     def get(self, request, short_url):
+        queryset = Url.objects.all()
+        url = get_object_or_404(queryset, pk=short_url)
+        url.visits += 1
+
         try:
-            queryset = Url.objects.all()
-            url = get_object_or_404(queryset, pk=short_url)
-            url.visits += 1
             url.save()
-            return redirect(url.long_url)
-        except Exception as e:
+        except:
             return JsonResponse({"message": "Internal error occurred"}, status=500)
+
+        return redirect(url.long_url)
