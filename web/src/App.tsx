@@ -20,7 +20,7 @@ function App() {
     try {
       const res = await axios({
         method: "post",
-        url: `${API_URL}/short/url/`,
+        url: `${API_URL}/short/url`,
         data: params,
       });
 
@@ -30,7 +30,7 @@ function App() {
     }
   };
 
-  const url = `${API_URL}/short/url/${shortUrl}`;
+  const url = `${API_URL}/goto/${shortUrl}`;
 
   const linkComponent = shortUrl ? (
     <label>

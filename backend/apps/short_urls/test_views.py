@@ -13,7 +13,7 @@ class ViewTestCase(TestCase):
     def test_get_short_url_from_db_exists(self):
         Url.objects.create(
             short_url='1234', long_url='https://www.google.com', visits=0)
-        request = self.factory.get('/short/url/1234')
+        request = self.factory.get('/goto/1234')
         view = ShortUrlView()
         view.setup(request)
 
@@ -22,7 +22,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_get_short_url_from_db_not_exists(self):
-        request = self.factory.get('/short/url/1234')
+        request = self.factory.get('/goto/1234')
         view = ShortUrlView()
         view.setup(request)
 
@@ -32,7 +32,7 @@ class ViewTestCase(TestCase):
     def test_get_short_url_from_db_save_fails(self):
         Url.objects.create(
             short_url='12345', long_url='https://www.google.com', visits=0)
-        request = self.factory.get('/short/url/1234')
+        request = self.factory.get('/goto/1234')
         view = ShortUrlView()
         view.setup(request)
 
