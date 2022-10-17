@@ -34,8 +34,8 @@ function App() {
     <label>
       Shortened URL:
       <a
-        href={`${API_URL}/goto/${shortUrl}`}
-      >{`${API_URL}/goto/${shortUrl}`}</a>
+        href={`${API_URL}/short/url/${shortUrl}`}
+      >{`${API_URL}/short/url/${shortUrl}`}</a>
     </label>
   ) : (
     <></>
