@@ -30,12 +30,12 @@ function App() {
     }
   };
 
+  const url = `${API_URL}/short/url/${shortUrl}`;
+
   const linkComponent = shortUrl ? (
     <label>
       Shortened URL:
-      <a
-        href={`${API_URL}/short/url/${shortUrl}`}
-      >{`${API_URL}/short/url/${shortUrl}`}</a>
+      <a href={url}>{url}</a>
     </label>
   ) : (
     <></>
